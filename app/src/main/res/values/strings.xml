@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">QuizApp</string>
+    <string name="title_main">Main</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_history">History</string>
+    <string name="quiz">Quiz</string>
+    <string name="questions_amount">Questions amount:</string>
+    <string name="category">Category</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="start">START</string>
+    <string-array name="category">
+        <item>All</item>
+    </string-array>
+    <string-array name="difficulty">
+        <item>All</item>
+    </string-array>
+
+
+</resources>
