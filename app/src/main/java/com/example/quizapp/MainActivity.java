@@ -2,6 +2,7 @@ package com.example.quizapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
@@ -21,14 +22,16 @@ public class MainActivity extends AppCompatActivity {
     private MainPagerAdapter adapter;
     private BottomNavigationView bottomNavigationView;
     private MenuItem prevMenuItem;
+    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         viewPager = findViewById(R.id.main_view_pager);
+        toolbar = findViewById(R.id.widget_toolbar);
         adapter = new MainPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
         viewPager.setOnTouchListener(new View.OnTouchListener() {
@@ -37,28 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
         bottomNavigationView = findViewById(R.id.main_bottom_nav);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.nav_main:
-                                viewPager.setCurrentItem(0);
-                                break;
-                            case R.id.nav_history:
-                                viewPager.setCurrentItem(1);
-                                break;
-                            case R.id.nav_settings:
-                                viewPager.setCurrentItem(2);
-                                break;
-                        }
-                        return false;
-                    }
-                });
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -82,6 +64,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        toolbar.setTitle("Quiz");
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.nav_main:
+                        viewPager.setCurrentItem(0, false);
+                        toolbar.setTitle("Quiz");
+                        break;
+                    case R.id.nav_history:
+                        viewPager.setCurrentItem(1, false);
+                        toolbar.setTitle("History");
+                        break;
+                    case R.id.nav_settings:
+                        viewPager.setCurrentItem(2, false);
+                        toolbar.setTitle("Settings");
+                        break;
+                }
+                return true;
+            }
+        });
 
 
     }

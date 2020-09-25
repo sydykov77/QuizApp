@@ -1,102 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".ui.main.MainFragment">
+    tools:context="ui.main.MainFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/quiz"
-        android:textColor="#000"
-        android:textSize="30sp"
-        android:textStyle="bold" />
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:id="@+id/image"
+        android:layout_width="58dp"
+        android:layout_height="85dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
         android:src="@drawable/quiz" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/questions_amount"
-            android:textColor="#A9A9A9"
-            android:textSize="20sp" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1.15"
+            android:gravity="right"
+            android:text="@string/questions_amount" />
 
         <TextView
             android:id="@+id/amount"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="5"
-            android:textColor="#3F3356"
-            android:textSize="23sp" />
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:text="0" />
 
     </LinearLayout>
 
+
     <SeekBar
-        android:id="@+id/amount_seek_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:max="10"
-        android:min="1" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/category"
-        android:textColor="#A9A9A9"
-        android:textSize="20sp" />
-
-    <Spinner
-        android:id="@+id/category_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:clickable="true"
-        android:entries="@array/category"
-        android:focusable="true"
-        android:spinnerMode="dropdown" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/difficulty"
-        android:textColor="#A9A9A9"
-        android:textSize="20sp" />
-
-    <Spinner
-        android:id="@+id/difficulty_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:clickable="true"
-        android:entries="@array/difficulty"
-        android:focusable="true"
-        android:spinnerMode="dropdown" />
-
-    <Button
-        android:id="@+id/start_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/seek_bar"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="30dp"
-        android:background="#6979F8"
+        android:layout_margin="15dp"
+        android:max="10"
+        android:progressTint="#DBA5F5"
+        android:thumbTint="#DBA5F5" />
+
+    <TextView
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/category" />
+
+    <Spinner
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/spinner"
+        android:entries="@array/category" />
+
+    <TextView
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:text="@string/difficulty" />
+
+    <Spinner
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/spinner"
+        android:entries="@array/difficulty" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/buttonMinus"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/button"
+            android:text="-"
+            android:textSize="30sp" />
+
+
+        <TextView
+            android:id="@+id/textOtvet"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textAlignment="center"
+            android:textSize="40dp" />
+
+        <Button
+            android:id="@+id/buttonPlus"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/button"
+            android:text="+"
+            android:textSize="30sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/start_game"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button"
         android:text="@string/start"
-        android:textSize="20sp" />
+        android:textColor="@android:color/white" />
+
+
 </LinearLayout>
