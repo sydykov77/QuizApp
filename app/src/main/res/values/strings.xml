@@ -8,6 +8,8 @@
     <string name="category">Category</string>
     <string name="difficulty">Difficulty</string>
     <string name="start">START</string>
+    <string name="navigation">Geography</string>
+
     <string-array name="category">
         <item>All</item>
     </string-array>
