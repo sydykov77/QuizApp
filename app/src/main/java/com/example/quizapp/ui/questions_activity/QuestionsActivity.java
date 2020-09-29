@@ -34,6 +34,7 @@ public class QuestionsActivity extends AppCompatActivity implements OnButtonAnsw
 
         init();
         setArg();
+        observeForever();
         setListener();
     }
 
@@ -56,6 +57,25 @@ public class QuestionsActivity extends AppCompatActivity implements OnButtonAnsw
         if (getIntent() != null)
             questionsAmount = getIntent().getIntExtra(RESULT_QUESTIONS_AMOUNT_KEY, 10);
         customGridLayoutManager = new CustomGridLayoutManager(this);
+    }
+
+    private void observeForever() {
+        mViewModel.listQuestions.observeForever(quizModels -> quizAdapter.setQuestions(quizModels));
+        mViewModel.answerAmount.observeForever(integer -> {
+            new CountDownTimer(3000, 3000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    activityQuestionsBinding.recyclerview.scrollToPosition(integer);
+                    activityQuestionsBinding.progressBarQuestionActivity.setProgress(integer);
+                }
+
+            }.start();
+        });
     }
 
 

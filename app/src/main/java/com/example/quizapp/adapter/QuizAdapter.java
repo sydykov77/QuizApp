@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizapp.R;
@@ -36,7 +37,8 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_question, parent, false));
+        ItemQuestionBinding binding = DataBindingUtil.bind(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_question, parent, false));
+        return new ViewHolder(binding);
     }
 
     @Override
@@ -50,29 +52,29 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener {
-        private ItemQuestionBinding item;
+        ItemQuestionBinding binding;
         @SuppressLint("ClickableViewAccessibility")
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            item = ItemQuestionBinding.bind(itemView);
-            item.button1.setOnTouchListener(this);
-            item.button2.setOnTouchListener(this);
-            item.button3.setOnTouchListener(this);
-            item.button4.setOnTouchListener(this);
-            item.type2Button.setOnTouchListener(this);
-            item.type2Button1.setOnTouchListener(this);
+        public ViewHolder(ItemQuestionBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+            binding.button1.setOnTouchListener(this);
+            binding.button2.setOnTouchListener(this);
+            binding.button3.setOnTouchListener(this);
+            binding.button4.setOnTouchListener(this);
+            binding.type2Button.setOnTouchListener(this);
+            binding.type2Button1.setOnTouchListener(this);
         }
 
         public void onBind(QuizModel quizModel){
             quizModel.setId(getAdapterPosition());
-            item.setModel(quizModel);
-            item.setHandlers(answerClick);
-            item.button1.setBackgroundResource(R.drawable.item_button_4);
-            item.button2.setBackgroundResource(R.drawable.item_button_4);
-            item.button3.setBackgroundResource(R.drawable.item_button_4);
-            item.button4.setBackgroundResource(R.drawable.item_button_4);
-            item.type2Button.setBackgroundResource(R.drawable.item_button_4);
-            item.type2Button1.setBackgroundResource(R.drawable.item_button_4);
+            binding.setModel(quizModel);
+            binding.setHandlers(answerClick);
+            binding.button1.setBackgroundResource(R.drawable.item_button_4);
+            binding.button2.setBackgroundResource(R.drawable.item_button_4);
+            binding.button3.setBackgroundResource(R.drawable.item_button_4);
+            binding.button4.setBackgroundResource(R.drawable.item_button_4);
+            binding.type2Button.setBackgroundResource(R.drawable.item_button_4);
+            binding.type2Button1.setBackgroundResource(R.drawable.item_button_4);
         }
 
 

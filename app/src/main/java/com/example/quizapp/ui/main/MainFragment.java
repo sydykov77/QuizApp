@@ -3,6 +3,7 @@ package com.example.quizapp.ui.main;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.quizapp.R;
+import com.example.quizapp.ui.questions_activity.QuestionsActivity;
 
 public class MainFragment extends Fragment {
     private MainViewModel viewModel;
@@ -24,9 +26,7 @@ public class MainFragment extends Fragment {
     private SeekBar seekBar;
     private TextView amount;
     private int amountIndex = 5;
-    Button plus;
-    Button minus;
-    TextView result;
+    Button plus, minus, start;
 
 
     public static MainFragment newInstance() {
@@ -47,7 +47,7 @@ public class MainFragment extends Fragment {
         viewModel.mResult.observe(getActivity(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                result.setText(String.valueOf(integer));
+                amount.setText(String.valueOf(integer));
             }
         });
 
@@ -88,6 +88,12 @@ public class MainFragment extends Fragment {
             }
         });
 
+        start.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), QuestionsActivity.class);
+            intent.putExtra(QuestionsActivity.RESULT_QUESTIONS_AMOUNT_KEY, viewModel.mResult.getValue());
+            startActivity(intent);
+        });
+
 
     }
 
@@ -96,7 +102,7 @@ public class MainFragment extends Fragment {
         seekBar = view.findViewById(R.id.seek_bar);
         plus = view.findViewById(R.id.buttonPlus);
         minus = view.findViewById(R.id.buttonMinus);
-        result = view.findViewById(R.id.textOtvet);
+        start = view.findViewById(R.id.start_game);
 
 
     }

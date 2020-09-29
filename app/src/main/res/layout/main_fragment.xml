@@ -19,24 +19,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1.15"
-            android:gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:text="@string/questions_amount" />
 
         <TextView
             android:id="@+id/amount"
-            android:layout_width="match_parent"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="20sp"
             android:text="0" />
+        <Button
+            android:id="@+id/buttonMinus"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/button"
+            android:text="-"
+            android:textSize="20sp" />
+
+
+
+        <Button
+            android:id="@+id/buttonPlus"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/button"
+            android:text="+"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -82,38 +99,6 @@
         android:background="@drawable/spinner"
         android:entries="@array/difficulty" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="20dp">
-
-        <Button
-            android:id="@+id/buttonMinus"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button"
-            android:text="-"
-            android:textSize="30sp" />
-
-
-        <TextView
-            android:id="@+id/textOtvet"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textAlignment="center"
-            android:textSize="40dp" />
-
-        <Button
-            android:id="@+id/buttonPlus"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/button"
-            android:text="+"
-            android:textSize="30sp" />
-
-    </LinearLayout>
 
     <Button
         android:id="@+id/start_game"
