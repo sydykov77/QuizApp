@@ -1,109 +1,35 @@
 package com.example.quizapp.ui.questions_activity;
 
-import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quizapp.R;
 import com.example.quizapp.adapter.QuizAdapter;
-import com.example.quizapp.castom_view.CustomGridLayoutManager;
-import com.example.quizapp.databinding.ActivityQuestionsBinding;
-import com.example.quizapp.interfaces.OnButtonAnswerClick;
+import com.example.quizapp.models.ModelQuiz;
 
-public class QuestionsActivity extends AppCompatActivity implements OnButtonAnswerClick {
-    public static final String RESULT_QUESTIONS_AMOUNT_KEY = "RESULT_QUESTIONS_AMOUNT_KEY";
-    private int questionsAmount;
-    private ActivityQuestionsBinding activityQuestionsBinding;
-    private QuizAdapter quizAdapter;
-    private QuestionsViewModel mViewModel;
-    private CustomGridLayoutManager customGridLayoutManager;
+import java.util.List;
+
+public class QuestionsActivity extends AppCompatActivity {
+
+    public static final String KEYNAME = "keyName";
+    private SeekBar seekBar2;
+    private RecyclerView horizontalRecyclerView;
+    private QuizAdapter horizontalAdapter;
+    private List<ModelQuiz> listHoriz;
+    private TextView textViewQuestion, tvSeekBar, tvCategory;
+    public static final String KEY = "key";
+    private ModelQuiz modelQuiz;
+    private LinearLayout layout, layout1;
+    private QuizViewModel quizViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Theme_AppCompat_Light_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
-
-        init();
-        setArg();
-        observeForever();
-        setListener();
-    }
-
-    private void setListener() {
-        activityQuestionsBinding.path.setOnClickListener(v -> finish());
-    }
-
-    private void setArg() {
-        mViewModel.setAmountQuestions(questionsAmount);
-        activityQuestionsBinding.recyclerview.setAdapter(quizAdapter);
-        activityQuestionsBinding.recyclerview.setLayoutManager(customGridLayoutManager);
-        customGridLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        activityQuestionsBinding.progressBarQuestionActivity.setMax(questionsAmount);
-    }
-
-    private void init() {
-        mViewModel = ViewModelProviders.of(this).get(QuestionsViewModel.class);
-        activityQuestionsBinding = DataBindingUtil.setContentView(this, R.layout.activity_questions);
-        quizAdapter = new QuizAdapter(this);
-        if (getIntent() != null)
-            questionsAmount = getIntent().getIntExtra(RESULT_QUESTIONS_AMOUNT_KEY, 10);
-        customGridLayoutManager = new CustomGridLayoutManager(this);
-    }
-
-    private void observeForever() {
-        mViewModel.listQuestions.observeForever(quizModels -> quizAdapter.setQuestions(quizModels));
-        mViewModel.answerAmount.observeForever(integer -> {
-            new CountDownTimer(3000, 3000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-
-                }
-
-                @Override
-                public void onFinish() {
-                    activityQuestionsBinding.recyclerview.scrollToPosition(integer);
-                    activityQuestionsBinding.progressBarQuestionActivity.setProgress(integer);
-                }
-
-            }.start();
-        });
-    }
-
-
-    @SuppressLint("ClickableViewAccessibility")
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void onClick(View view, int positionQuestion, int positionAnswer) {
-        int result = mViewModel.onButtonClick(positionQuestion, positionAnswer);
-        switch (result) {
-            case QuestionsViewModel.CORRECT_ANSWER:
-                view.setBackgroundResource(R.drawable.item_button_2);
-                break;
-
-            case QuestionsViewModel.CORRECT_ANSWER_AND_AND_FINAL_ANSWER:
-                view.setBackgroundResource(R.drawable.item_button_2);
-                finish();
-                break;
-
-            case QuestionsViewModel.WRONG_ANSWER:
-                view.setBackgroundResource(R.drawable.item_button_3);
-                break;
-
-            case QuestionsViewModel.WRONG_ANSWER_AND_AND_FINAL_ANSWER:
-                view.setBackgroundResource(R.drawable.item_button_3);
-                finish();
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + result);
-        }
     }
 }

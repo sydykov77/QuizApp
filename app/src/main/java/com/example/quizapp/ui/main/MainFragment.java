@@ -1,5 +1,6 @@
 package com.example.quizapp.ui.main;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -10,24 +11,37 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.quizapp.R;
+import com.example.quizapp.databinding.MainFragmentBinding;
+import com.example.quizapp.models.TriviaCategory;
 import com.example.quizapp.ui.questions_activity.QuestionsActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainFragment extends Fragment {
-    private MainViewModel viewModel;
 
-    private SeekBar seekBar;
-    private TextView amount;
-    private int amountIndex = 5;
-    Button plus, minus, start;
+    private MainViewModel mViewModel;
+    private MainFragmentBinding binding;
+    private Integer category;
+    private static int MAIN_FRAGMENT_CODE = 1;
+    private String nameCategoryTitleQuestionActivity;
+    private String stringCategory = "Any category";
+    private String difficulty = "Any type";
+    private String difficul;
 
+    private int amount;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -36,75 +50,105 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_fragment, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-
-        viewModel.mResult.observe(getActivity(), new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                amount.setText(String.valueOf(integer));
-            }
-        });
-
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initialization(view);
 
-        amount = view.findViewById(R.id.amount);
-        seekBar = view.findViewById(R.id.seek_bar);
-        seekBar.setProgress(5);
-        amount.setText("5");
+        binding.amount.setText("0");
+        onClick();
+        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mViewModel.updateCategory();
+        mViewModel.mutableLiveData.observeForever(integer -> {
+            binding.amount.setText(integer + "");
+            binding.seekBar.setProgress(integer);
+            amount = integer;
+        });
 
-
-        seekBar.setOnSeekBarChangeListener(new SimpleSeekBarChangeListener() {
+        binding.difficulty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                amount.setText(String.valueOf(progress));
-                amountIndex = progress;
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                difficul = getResources().getStringArray(R.array.difficulty)[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
-
-        minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewModel.minus();
+        mViewModel.mutableCategory.observeForever(modelCategory -> {
+            List<TriviaCategory> categoryList = modelCategory.getTriviaCategories();
+            List<String> name_category = new ArrayList<>();
+            for (TriviaCategory triviaCategory : categoryList) {
+                name_category.add(triviaCategory.getName());
             }
-        });
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.support_simple_spinner_dropdown_item, name_category);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            binding.category.setAdapter(adapter);
+            binding.category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    category = modelCategory.getTriviaCategories().get(position).getId();
+                    nameCategoryTitleQuestionActivity = modelCategory.getTriviaCategories().get(position).getName();
 
-        plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewModel.plus();
-            }
-        });
+                    Toast.makeText(requireContext(), "Selected", Toast.LENGTH_SHORT).show();
+                }
 
-        start.setOnClickListener(v -> {
-            Intent intent = new Intent(requireActivity(), QuestionsActivity.class);
-            intent.putExtra(QuestionsActivity.RESULT_QUESTIONS_AMOUNT_KEY, viewModel.mResult.getValue());
-            startActivity(intent);
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
+                }
+            });
+        });
 
     }
 
-    private void initialization(View view) {
-        amount = view.findViewById(R.id.amount);
-        seekBar = view.findViewById(R.id.seek_bar);
-        plus = view.findViewById(R.id.buttonPlus);
-        minus = view.findViewById(R.id.buttonMinus);
-        start = view.findViewById(R.id.start_game);
+    private void onClick() {
 
+        binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mViewModel.mutableLiveData.setValue(progress);
+            }
 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        binding.startGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("ololo", "buttonStart");
+                Intent intent = new Intent(requireContext(), QuestionsActivity.class);
+                intent.putExtra(QuestionsActivity.KEY, category.intValue());
+                intent.putExtra(QuestionsActivity.KEYNAME, nameCategoryTitleQuestionActivity);
+                startActivityForResult(intent, MAIN_FRAGMENT_CODE);
+
+            }
+        });
+        binding.buttonPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.plus();
+            }
+        });
+        binding.buttonMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.minus();
+            }
+        });
     }
 
 }
