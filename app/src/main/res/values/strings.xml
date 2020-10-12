@@ -14,7 +14,10 @@
         <item>All</item>
     </string-array>
     <string-array name="difficulty">
-        <item>All</item>
+        <item>Any type</item>
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
     </string-array>
 
 

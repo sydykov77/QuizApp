@@ -50,7 +50,8 @@ public class QuizApiService {
 
     public interface QuestionCallback {
 
-        
+
+        void onSuccess(List<Result> body);
 
         void onFailure(Exception e);
 

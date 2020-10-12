@@ -1,7 +1,6 @@
 package com.example.quizapp.ui.main;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -17,9 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quizapp.R;
@@ -58,6 +55,12 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         binding.amount.setText("0");
         onClick();
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
@@ -94,8 +97,6 @@ public class MainFragment extends Fragment {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     category = modelCategory.getTriviaCategories().get(position).getId();
                     nameCategoryTitleQuestionActivity = modelCategory.getTriviaCategories().get(position).getName();
-
-                    Toast.makeText(requireContext(), "Selected", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
