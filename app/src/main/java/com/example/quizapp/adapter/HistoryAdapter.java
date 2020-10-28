@@ -15,16 +15,21 @@ import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>{
 
-    private List<HistoryModel> data = new ArrayList<>();
+    private List<HistoryModel> data;
+
+    public HistoryAdapter(List<HistoryModel> data) {
+        this.data = data;
+    }
 
     public void setData(List<HistoryModel> data) {
         this.data = data;
     }
 
+
     @NonNull
     @Override
     public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new HistoryViewHolder(HistoryHolderBinding.bind(LayoutInflater.from(parent.getContext()).inflate(R.layout.history_holder,parent,false)));
+        return new HistoryViewHolder(HistoryHolderBinding.bind(LayoutInflater.from(parent.getContext()).inflate(R.layout.history_holder, parent, false)));
     }
 
     @Override
@@ -36,17 +41,27 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     @Override
     public int getItemCount() {
         return data.size();
+
     }
 
     public class HistoryViewHolder extends RecyclerView.ViewHolder {
         HistoryHolderBinding historyHolderBinding;
+
         public HistoryViewHolder(@NonNull HistoryHolderBinding binding) {
             super(binding.getRoot());
             historyHolderBinding = binding;
 
         }
-        public void bind(HistoryModel historyModel){
+
+        public void bind(HistoryModel historyModel) {
+            historyHolderBinding.tvDifficulty.setText(historyModel.getDifficulty());
+
             historyHolderBinding.tvCategory.setText(historyModel.getCategory());
+            historyHolderBinding.tvAmountQuiz.setText(String.valueOf(historyModel.getAmount_quiz()));
+            historyHolderBinding.tvDifficulty.setText(historyModel.getDifficulty());
+            historyHolderBinding.tvAnswers.setText(String.valueOf(historyModel.getCorrectAns()));
+
+
         }
     }
 }

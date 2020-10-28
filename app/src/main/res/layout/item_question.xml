@@ -1,135 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout>
-
     <data>
-
-        <import type="android.view.View" />
-
-        <import type="android.text.Html"/>
-
+        <import type="android.view.View"/>
         <variable
-            name="handlers"
-            type="com.example.quizapp.interfaces.OnButtonAnswerClick" />
-
+            name="listener"
+            type="com.example.quizapp.interfaces.OnAnswerClick" />
         <variable
             name="model"
-            type="com.example.quizapp.models.Result" />
-
+            type="com.example.quizapp.models.ResultModel" />
     </data>
+
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="?attr/backgroundColor"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/what_is_the"
+            android:id="@+id/tv_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
+            android:textColor="?attr/textColor"
+            android:text="What is largest city and commercial capital of Sri Lanka?"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/layout_variant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal|top"
-            android:text="@{Html.fromHtml(Html.fromHtml(model.question).toString())}"
-            android:textAppearance="@style/what_is_the" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_marginTop="43dp"
-            android:orientation="vertical"
-            android:visibility="@{model.incorrectAnswers.size() == 4  ? View.VISIBLE : View.GONE}">
+            android:visibility="@{model.incorrectAnswers.size() == 4 ? View.VISIBLE:View.GONE}"
+            android:orientation="vertical">
 
             <Button
-                android:id="@+id/button_1"
+                android:id="@+id/btnone"
+                android:layout_width="280dp"
+                android:layout_height="40dp"
+                android:onClick="@{(theView)-> listener.onAnswer(theView,0,0)}"
+                android:layout_gravity="center"
+                android:background="@drawable/quiz_btn_four"
+                android:text="One" />
+
+            <Button
+                android:id="@+id/btntwo"
                 android:layout_width="280dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:background="@drawable/item_button_4"
-                android:gravity="center_horizontal|center_vertical"
-                android:lineSpacingExtra="5sp"
-                android:onClick="@{(theView) -> handlers.onClick(theView, 0, 0)}"
-                android:text='@{model.incorrectAnswers.size() == 4  ? model.incorrectAnswers.get(0) : ""}'
-                android:textAppearance="@style/item_btn2_text" />
+                android:onClick="@{(theView)-> listener.onAnswer(theView,0,1)}"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/quiz_btn_four"
+                android:text="Two" />
 
             <Button
-                android:id="@+id/button_2"
+                android:id="@+id/btnthree"
                 android:layout_width="280dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/item_button_4"
-                android:gravity="center_horizontal|center_vertical"
-                android:lineSpacingExtra="5sp"
-                android:onClick="@{(theView) -> handlers.onClick(theView, 0, 1)}"
-                android:text='@{model.incorrectAnswers.size() == 4  ? model.incorrectAnswers.get(1) : "" }'
-                android:textAppearance="@style/item_btn2_text" />
+                android:layout_marginTop="10dp"
+                android:onClick="@{(theView)-> listener.onAnswer(theView,0,2)}"
+                android:background="@drawable/quiz_btn_four"
+                android:text="Three" />
 
             <Button
-                android:id="@+id/button_3"
+                android:id="@+id/btnfour"
                 android:layout_width="280dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/item_button_4"
-                android:gravity="center_horizontal|center_vertical"
-                android:lineSpacingExtra="5sp"
-                android:onClick="@{(theView) -> handlers.onClick(theView, 0, 2)}"
-                android:text='@{model.incorrectAnswers.size() == 4  ? model.incorrectAnswers.get(2) : "" }'
-                android:textAppearance="@style/item_btn2_text" />
-
-            <Button
-                android:id="@+id/button_4"
-                android:layout_width="280dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/item_button_4"
-                android:gravity="center_horizontal|center_vertical"
-                android:lineSpacingExtra="5sp"
-                android:onClick="@{(theView) -> handlers.onClick(theView, 0, 3)}"
-                android:text='@{model.incorrectAnswers.size() == 4 ? model.incorrectAnswers.get(3) : "" }'
-                android:textAppearance="@style/item_btn2_text" />
-
+                android:layout_marginTop="10dp"
+                android:onClick="@{(theView)-> listener.onAnswer(theView,0,3)}"
+                android:background="@drawable/quiz_btn_four"
+                android:text="Four" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/layout_true_false"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="43dp"
-            android:orientation="vertical"
-            android:visibility="@{model.incorrectAnswers.size() == 2 ? View.VISIBLE : View.GONE}">
-
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:visibility="@{model.incorrectAnswers.size() == 2 ? View.VISIBLE : View.GONE}"
+            android:orientation="vertical">
 
             <Button
-                android:id="@+id/type2_button"
+                android:id="@+id/btn_true"
                 android:layout_width="280dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="35dp"
-                android:background="@drawable/item_button_4"
-                android:gravity="center_horizontal|center_vertical"
-                android:lineSpacingExtra="5sp"
-                android:onClick="@{(theView) ->handlers.onClick(theView, 0, 0)}"
-                android:text="Yes"
-                android:textAppearance="@style/item_btn2_text" />
+                android:onClick="@{(theView) -> listener.onAnswer(theView,0,0)}"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/quiz_btn_four"
+                android:text="Да" />
 
             <Button
-                android:id="@+id/type2_button1"
+                android:id="@+id/btn_false"
                 android:layout_width="280dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="34dp"
-                android:background="@drawable/item_button_4"
-                android:gravity="center_horizontal|center_vertical"
-                android:lineSpacingExtra="5sp"
-                android:onClick="@{(theView) -> handlers.onClick(theView, 0, 1)}"
-                android:text="No"
-                android:textAppearance="@style/item_btn2_text" />
-
+                android:onClick="@{(theView) -> listener.onAnswer(theView,0,1)}"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/quiz_btn_four"
+                android:text="Нет" />
         </LinearLayout>
-
-
     </LinearLayout>
-
 </layout>

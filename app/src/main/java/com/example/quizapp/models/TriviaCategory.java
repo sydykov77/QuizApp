@@ -1,3 +1,4 @@
+
 package com.example.quizapp.models;
 
 import com.google.gson.annotations.Expose;

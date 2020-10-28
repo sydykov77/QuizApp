@@ -2,8 +2,7 @@ package com.example.quizapp.ui.main;
 
 import android.widget.SeekBar;
 
-public class SimpleSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
-
+public class SimpleSeekBarChangeListenner implements SeekBar.OnSeekBarChangeListener {
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 

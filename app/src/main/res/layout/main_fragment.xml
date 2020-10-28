@@ -39,23 +39,24 @@
             android:textAlignment="center"
             android:textSize="20sp"
             android:text="0" />
-        <Button
-            android:id="@+id/buttonMinus"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/button"
-            android:text="-"
-            android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/icon_minus"
+            android:layout_gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_remove" />
 
 
 
-        <Button
-            android:id="@+id/buttonPlus"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/button"
-            android:text="+"
-            android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/icon_plus"
+            android:layout_gravity="left"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_plus"/>
+
 
     </LinearLayout>
 

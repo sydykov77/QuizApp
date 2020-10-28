@@ -1,99 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.settings.SettingsFragment">
-
-    <LinearLayout
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="94dp"
-        android:orientation="horizontal"
-        android:background="@drawable/linear_layout_style">
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:background="?attr/backgroundColor"
+        tools:context=".ui.ui.settings.SettingsFragment">
 
-        <TextView
+        <androidx.cardview.widget.CardView
+            android:layout_margin="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:layout_weight="1"
-            android:text="Share this app"
-            android:textSize="18sp" />
-        <ImageView
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/linear_clear"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal"
+                android:background="?attr/backgroundColor">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:layout_weight="1"
+                    android:textColor="?attr/textColor"
+                    android:text="@string/clear_history"
+                    android:textSize="18sp" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="3"
+                    android:src="@drawable/ic_vector_stroke"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="3"
-            android:src="@drawable/ic_vector_stroke"/>
+            android:background="?attr/backgroundColor"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/list_theme_holder" />
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:background="@drawable/linear_layout_style">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:layout_weight="1"
-            android:text="Rate us"
-            android:textSize="18sp" />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="3"
-            android:src="@drawable/ic_vector_stroke"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:background="@drawable/linear_layout_style">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:layout_weight="1"
-            android:text="Leave feedback"
-            android:textSize="18sp" />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="3"
-            android:src="@drawable/ic_vector_stroke"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:background="@drawable/linear_layout_style">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:layout_weight="1"
-            android:text="Clear history"
-            android:textSize="18sp" />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="3"
-            android:src="@drawable/ic_vector_stroke"/>
-    </LinearLayout>
-
-</LinearLayout>
+</layout>

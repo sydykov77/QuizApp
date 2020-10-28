@@ -1,35 +1,113 @@
 package com.example.quizapp.ui.questions_activity;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.util.Log;
+import android.view.View;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
+import com.example.quizapp.App;
 import com.example.quizapp.R;
 import com.example.quizapp.adapter.QuizAdapter;
-import com.example.quizapp.models.ModelQuiz;
+import com.example.quizapp.databinding.ActivityQuestionsBinding;
+import com.example.quizapp.interfaces.OnAnswerClick;
+import com.example.quizapp.models.ScoreModel;
+import com.example.quizapp.ui.result.ResultActivity;
 
-import java.util.List;
-
-public class QuestionsActivity extends AppCompatActivity {
-
+public class QuestionsActivity extends AppCompatActivity implements OnAnswerClick {
     public static final String KEYNAME = "keyName";
-    private SeekBar seekBar2;
-    private RecyclerView horizontalRecyclerView;
+    public static final String KEYDIFFICULY = "keyDifficuly";
+    public static final String KEYAMOUNT = "keyAmount";
     private QuizAdapter horizontalAdapter;
-    private List<ModelQuiz> listHoriz;
-    private TextView textViewQuestion, tvSeekBar, tvCategory;
     public static final String KEY = "key";
-    private ModelQuiz modelQuiz;
-    private LinearLayout layout, layout1;
     private QuizViewModel quizViewModel;
+    private int amountQuestions;
+    private static int QUESTIONS_ACTIVITY_CODE = 10;
+    private String diff;
+    private String categ;
+    private ScoreModel scoreModel;
+    ActivityQuestionsBinding activityQuizBinding;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(App.getInstance().getPreferences().getTheme(R.style.AppTheme));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
+
+        activityQuizBinding = DataBindingUtil.setContentView(this, R.layout.activity_questions);
+        quizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
+        //Сначала это вызываем потом вызываем quizViewModel.updateQuestion("easy", category, amount);
+        quizViewModel.answerAmownt.observeForever(integer -> activityQuizBinding.horizontalRecyclerView.smoothScrollToPosition(integer));
+
+//        SnapHelper snapHelper = new PagerSnapHelper();
+//        snapHelper.attachToRecyclerView(activityQuizBinding.horizontalRecyclerView);
+
+        Intent intent = getIntent();
+        int category = intent.getIntExtra(KEY, 9);
+        categ=intent.getStringExtra(KEYNAME);
+        activityQuizBinding.tvCategory.setText(categ);
+        Log.e("log"," "+categ);
+        activityQuizBinding.tvProgressBar.setText(intent.getStringExtra(KEYDIFFICULY));
+        int amount = intent.getIntExtra(KEYAMOUNT, 10);
+
+
+        activityQuizBinding.progressBar.setMax(amount);
+        activityQuizBinding.progressBar.setProgress(0);
+        horizontalAdapter = new QuizAdapter();
+        horizontalAdapter.setListener(this);
+        activityQuizBinding.horizontalRecyclerView.setAdapter(horizontalAdapter);
+        quizViewModel.mutableQuestions.observeForever(modelQuestions -> {
+            horizontalAdapter.addData(modelQuestions);
+            amountQuestions = modelQuestions.size();
+        });
+
+        quizViewModel.updateQuestion("easy", category, amount); //Вызываем после quizViewModel.answerAmownt.observeForever(new Observer<Integer>());
+
+        horizontalAdapter.setOnItemClickListener(position -> {
+            Log.e("ololo", "onItemClick: " + position + "  " + (amountQuestions - 1));
+            if (position >= amountQuestions - 1) {
+                diff =intent.getStringExtra(KEYDIFFICULY);
+                Log.e("ololo"," "+diff+amount+quizViewModel.corAnswer+categ + position + "  " + (amountQuestions - 1));
+                Intent intent1 = new Intent(QuestionsActivity.this,ResultActivity.class);
+                intent1.putExtra(ResultActivity.KEYDIFFICULY,diff);
+                intent1.putExtra(ResultActivity.KEYAMOUNT,amount);
+                intent1.putExtra(ResultActivity.KEYRESULTANSWER,quizViewModel.corAnswer);
+                intent1.putExtra(ResultActivity.KEYNAME,categ);
+                startActivityForResult(intent1, QUESTIONS_ACTIVITY_CODE);
+                finish();
+            } else {
+                activityQuizBinding.progressBar.setProgress(activityQuizBinding.progressBar.getProgress() + 1);
+                activityQuizBinding.horizontalRecyclerView.scrollToPosition(activityQuizBinding.progressBar.getProgress());
+            }
+        });
+        quizViewModel.positionAnswer.observeForever(integer -> {
+            activityQuizBinding.progressBar.setProgress(integer);
+            activityQuizBinding.horizontalRecyclerView.scrollToPosition(integer);
+            horizontalAdapter.notifyDataSetChanged();
+        });
+        activityQuizBinding.backQuestion.setOnClickListener(v -> {
+            Log.e("ololo", "onClick:backQuestion ");
+           quizViewModel.btnBack();
+        });
+        activityQuizBinding.btnSkip.setOnClickListener(v -> quizViewModel.skip());
     }
+
+    @Override
+    public void onAnswer(View view, int positionQuestion, int positionAnswer) {
+
+    }
+
+    @Override
+    public void correctAnswer(boolean b) {
+        if (b) {
+            quizViewModel.correctAnswerr();
+        }
+    }
+
 }
